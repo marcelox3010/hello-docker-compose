@@ -1,0 +1,9 @@
+services:
+  webserver:
+    image: php:8.3-apache
+    container_name: meuphp
+    # restart: alwaysej
+    ports:
+      - '80:80'
+    volumes: 
+      - ./www:/var/www/html
