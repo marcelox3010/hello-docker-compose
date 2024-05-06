@@ -1,9 +1,31 @@
 services:
   webserver:
-    image: php:8.3-apache
-    container_name: meuphp
-    # restart: alwaysej
+    build:
+      context: c-web
+      dockerfile: Dockerfile
+    container_name: webserverphp
+    restart: always
     ports:
       - '80:80'
-    volumes: 
-      - ./www:/var/www/html
+    volumes:
+      - ./c-web/www:/var/www/html
+    networks:
+      - redeappcensosuas
+
+  database:    
+    build:
+      context: c-db
+      dockerfile: Dockerfile
+    container_name: databasepostgres
+    restart: always
+    environment:
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=mds123
+    ports:
+      - '5432:5432'
+    networks:
+      - redeappcensosuas
+
+  networks:
+      redeappcensosuas:
+          driver: bridge
