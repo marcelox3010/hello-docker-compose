@@ -19,13 +19,13 @@ services:
     container_name: databasepostgres
     restart: always
     environment:
-            - POSTGRES_USER=postgres
-            - POSTGRES_PASSWORD=mds123
+            - POSTGRES_USER=${POSTGRES_USER}
+            - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     ports:
       - '5432:5432'
     networks:
       - redeappcensosuas
 
-  networks:
-      redeappcensosuas:
-          driver: bridge
+networks:
+    redeappcensosuas:
+        driver: bridge
