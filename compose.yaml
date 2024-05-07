@@ -1,21 +1,22 @@
 services:
-  webserver:
+  phpcensosuas:
+    hostname: phpcensosuas
     build:
-      context: c-web
-      dockerfile: Dockerfile
+      context: ./
+      dockerfile: Dockerfile-php
     container_name: phpcensosuas
     restart: always
     ports:
       - '80:80'
     volumes:
-      - ./c-web/www:/var/www/html
+      - ./www:/var/www/html
     networks:
-      - redeappcensosuas
-  database:
-    hostname: dbcensosuas
+      - redecensosuas
+  pgcensosuas:
+    hostname: pgcensosuas
     build:
-      context: c-db
-      dockerfile: Dockerfile
+      context: ./
+      dockerfile: Dockerfile-pg
     container_name: dbcensosuas
     restart: always
     environment:
@@ -25,10 +26,10 @@ services:
     ports:
       - '5432:5432'
     volumes:
-      - ./c-db/data:${POSTGRES_DATA}
-      - ./c-db/dados.sql:/docker-entrypoint-initdb.d/dados.sql
+      - ./data:${POSTGRES_DATA}
+      - ./dados.sql:/docker-entrypoint-initdb.d/dados.sql
     networks:
-      - redeappcensosuas
+      - redecensosuas
 networks:
-    redeappcensosuas:
+    redecensosuas:
         driver: bridge
