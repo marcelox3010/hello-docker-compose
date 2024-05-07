@@ -3,7 +3,7 @@ services:
     build:
       context: c-web
       dockerfile: Dockerfile
-    container_name: webserverphp
+    container_name: phpcensosuas
     restart: always
     ports:
       - '80:80'
@@ -12,18 +12,20 @@ services:
     networks:
       - redeappcensosuas
   database:
+    hostname: dbcensosuas
     build:
       context: c-db
       dockerfile: Dockerfile
-    container_name: databasepostgres
+    container_name: dbcensosuas
     restart: always
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_PORT=${POSTGRES_PORT}
     ports:
       - '5432:5432'
     volumes:
-      - ./c-db/data:/var/lib/postgresql/data
+      - ./c-db/data:${POSTGRES_DATA}
       - ./c-db/dados.sql:/docker-entrypoint-initdb.d/dados.sql
     networks:
       - redeappcensosuas
